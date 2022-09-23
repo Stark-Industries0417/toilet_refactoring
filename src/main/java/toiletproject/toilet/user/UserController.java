@@ -3,6 +3,8 @@ package toiletproject.toilet.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import toiletproject.toilet.user.dto.UserLoginReqDto;
+import toiletproject.toilet.user.dto.UserLoginResDto;
 import toiletproject.toilet.user.dto.UserRegisterReqDto;
 import toiletproject.toilet.user.dto.UserRegisterResDto;
 
@@ -19,5 +21,10 @@ public class UserController {
     @PostMapping("/register")
     public UserRegisterResDto register(@RequestBody @Valid UserRegisterReqDto userRegisterReqDto) {
         return userService.join(userRegisterReqDto);
+    }
+
+    @PostMapping("/login")
+    public UserLoginResDto login(@RequestBody @Valid UserLoginReqDto userLoginReqDto) {
+        return userService.login(userLoginReqDto);
     }
 }
