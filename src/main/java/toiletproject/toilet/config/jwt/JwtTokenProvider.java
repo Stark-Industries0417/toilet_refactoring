@@ -4,11 +4,13 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import toiletproject.toilet.config.auth.PrincipalDetailsService;
 
 import javax.annotation.PostConstruct;
@@ -17,9 +19,12 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
+
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     private final PrincipalDetailsService principalDetailsService;
     private Key key;
 
@@ -50,18 +55,22 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String getNickname(String token) {
+    public String getEmail(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build()
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = principalDetailsService.loadUserByUsername(this.getNickname(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetails userDetails = principalDetailsService.loadUserByUsername(this.getEmail(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", null);
     }
 
     public String resolveToken(HttpServletRequest req) {
-        return req.getHeader("Authorization");
+        String bearerToken = req.getHeader(AUTHORIZATION_HEADER);
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     public boolean validateToken(String token, HttpServletRequest req) {
@@ -69,13 +78,15 @@ public class JwtTokenProvider {
             if(token.isEmpty()) throw new JwtException("empty jwtToken");
             Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
-        } catch (JwtException e) {
-            if (token.isEmpty()) {
-                req.setAttribute("exception", "JWT를 입력해주세요");
-            }
-            else req.setAttribute("exception", "잘못된 토큰 입니다.");
-            return false;
+        } catch(io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("잘못된 JWT 서명입니다.");
+        } catch(ExpiredJwtException e) {
+            log.info("만료된 JWT 토큰입니다.");
+        } catch(UnsupportedJwtException e) {
+            log.info("지원되지 않는 JWT 토큰입니다.");
+        } catch(IllegalStateException e) {
+            log.info("JWT 토큰이 잘못되었습니다.");
         }
+        return false;
     }
-
 }
