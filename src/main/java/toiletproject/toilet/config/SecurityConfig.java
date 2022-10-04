@@ -9,9 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import toiletproject.toilet.config.auth.PrincipalDetailsService;
-import toiletproject.toilet.config.jwt.JwtAuthenticationFilter;
+import toiletproject.toilet.config.jwt.JwtSecurityConfig;
 
 
 @RequiredArgsConstructor
@@ -19,25 +18,29 @@ import toiletproject.toilet.config.jwt.JwtAuthenticationFilter;
 @Configuration
 public class SecurityConfig {
     private final CorsConfig corsConfig;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtSecurityConfig jwtSecurityConfig;
     private final PrincipalDetailsService principalDetailsService;
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(principalDetailsService);
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilter(corsConfig.corsFilter())
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .anyRequest().permitAll();
+                .antMatchers("/api/users/register", "/api/users/login",
+                        "/api/users/check_email", "/api/users/upload", "/api/users/redirect",
+                "/api/users/reset_password").permitAll()
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(jwtSecurityConfig);
         return http.build();
     }
 
