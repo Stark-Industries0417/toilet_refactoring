@@ -17,13 +17,10 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
-        log.info("nickname = {}", nickname);
-
-        UserEntity userEntity = userRepository.findByNickname(nickname)
-                .orElseThrow(() -> new UsernameNotFoundException("찾을 수 없는 닉네임 입니다."));
-
-        log.info("find.nickname = {}", userEntity.getNickname());
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        log.info("email = {}", email);
+        UserEntity userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("찾을 수 없는 이메일 입니다."));
         return new PrincipalDetails(userEntity);
     }
 }

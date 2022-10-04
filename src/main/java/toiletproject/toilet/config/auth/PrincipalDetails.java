@@ -12,6 +12,9 @@ public class PrincipalDetails implements UserDetails {
 
     private UserEntity userEntity;
 
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
     public PrincipalDetails(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
@@ -28,7 +31,7 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userEntity.getNickname();
+        return userEntity.getEmail();
     }
 
     @Override

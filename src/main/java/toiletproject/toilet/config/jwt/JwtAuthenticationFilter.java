@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 
@@ -25,11 +26,16 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
-        if (token == null) request.setAttribute("exception", "인증되지 않은 계정입니다.");
-        else if(jwtTokenProvider.validateToken(token, (HttpServletRequest) request)) {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String token = jwtTokenProvider.resolveToken(httpServletRequest);
+        String requestURI = httpServletRequest.getRequestURI();
+
+        if(StringUtils.hasText(token) && jwtTokenProvider.validateToken(token, httpServletRequest)) {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.debug("Security Context에 '{}' 인증 정보를 저장, uri: {}", authentication.getName(), requestURI);
+        } else {
+            log.debug("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
         }
         chain.doFilter(request, response);
     }
