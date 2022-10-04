@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class UserLoginResDto extends UserRegisterResDto{
+public class UserLoginResDto extends UserResponseDto {
 
     private String token;
 
