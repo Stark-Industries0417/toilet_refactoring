@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping()
     public UserResponseDto getCurrentUser(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-        UserEntity user = principalDetails.getAccount();
+        UserEntity user = principalDetails.getUserEntity();
         return new UserResponseDto(user);
     }
 }
