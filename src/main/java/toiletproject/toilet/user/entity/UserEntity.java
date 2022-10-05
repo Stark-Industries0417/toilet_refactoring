@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 import toiletproject.toilet.config.entity.BaseTimeEntity;
 import toiletproject.toilet.user.dto.UserRegisterReqDto;
 
@@ -15,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@DynamicInsert
 @Table(name = "users")
 @Entity
 public class UserEntity extends BaseTimeEntity {
@@ -33,8 +30,7 @@ public class UserEntity extends BaseTimeEntity {
     @Column(unique = true, nullable = false)
     private String nickname;
 
-    @Column(nullable = false, columnDefinition =
-            "varchar(255) default 'https://toiletprofile.s3.ap-northeast-2.amazonaws.com/Profile-Image.svg'")
+    @Column(nullable = false)
     private String imgUrl;
 
     public static UserEntity createUserEntity(UserRegisterReqDto dto) {
@@ -43,5 +39,9 @@ public class UserEntity extends BaseTimeEntity {
                 .nickname(dto.getNickname())
                 .password(dto.getPassword())
                 .build();
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

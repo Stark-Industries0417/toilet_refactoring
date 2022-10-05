@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import toiletproject.toilet.config.auth.PrincipalDetails;
 import toiletproject.toilet.config.jwt.JwtTokenProvider;
 import toiletproject.toilet.user.dto.UserLoginReqDto;
 import toiletproject.toilet.user.dto.UserLoginResDto;
@@ -21,13 +20,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserResponseDto join(UserRegisterReqDto joinReqDto){
+    public UserResponseDto join(UserRegisterReqDto joinReqDto, String userImg){
 
         validatePasswordCheck(joinReqDto);
 
         joinReqDto.setPassword(passwordEncoder.encode(joinReqDto.getPassword()));
 
         UserEntity user = UserEntity.createUserEntity(joinReqDto);
+        user.setImgUrl(userImg);
         UserEntity savedUser = userRepository.save(user);
 
         return new UserResponseDto(savedUser);
