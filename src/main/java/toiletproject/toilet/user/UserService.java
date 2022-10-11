@@ -38,6 +38,7 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
     public UserLoginResDto login(UserLoginReqDto loginReq) {
         UserEntity user = userRepository.findByEmail(loginReq.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일 입니다."));

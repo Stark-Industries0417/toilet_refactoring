@@ -81,7 +81,7 @@ public class CustomDataSourceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         EntityManagerFactoryBuilder entityManagerFactoryBuilder = createEntityManagerFactoryBuilder(jpaProperties);
         return entityManagerFactoryBuilder.dataSource(dataSource())
-                .packages("toiletproject.toilet.user.entity").build();
+                .packages("toiletproject.toilet.*").build();
     }
 
     private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties jpaProperties) {
