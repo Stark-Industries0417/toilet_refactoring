@@ -5,9 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toiletproject.toilet.config.entity.BaseTimeEntity;
+import toiletproject.toilet.toilets.entity.ToiletEntity;
 import toiletproject.toilet.user.dto.UserRegisterReqDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -32,6 +35,9 @@ public class UserEntity extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String imgUrl;
+
+    @OneToMany(mappedBy = "user")
+    private List<ToiletEntity> toilets = new ArrayList<>();
 
     public static UserEntity createUserEntity(UserRegisterReqDto dto) {
         return UserEntity.builder()
