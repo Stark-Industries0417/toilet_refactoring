@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
+import toiletproject.toilet.option.OptionEntity;
 import toiletproject.toilet.toilets.dto.ToiletDto;
 import toiletproject.toilet.user.entity.UserEntity;
 
@@ -49,6 +49,10 @@ public class ToiletEntity {
         this.user = user;
         user.getToilets().add(this);
     }
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "option_id")
+    private OptionEntity option;
 
     public static ToiletEntity createToiletEntity(ToiletDto dto) {
         return ToiletEntity.builder()

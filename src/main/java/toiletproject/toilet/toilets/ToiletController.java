@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import toiletproject.toilet.config.auth.PrincipalDetails;
 import toiletproject.toilet.toilets.dto.ToiletAddress;
+import toiletproject.toilet.toilets.dto.ToiletAround;
 import toiletproject.toilet.toilets.dto.ToiletDto;
+import toiletproject.toilet.toilets.entity.ToiletEntity;
 import toiletproject.toilet.user.entity.UserEntity;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -32,5 +35,10 @@ public class ToiletController {
     @PostMapping()
     public ToiletDto getToilet(@RequestBody @Valid ToiletAddress addressDto) {
         return toiletService.getToilet(addressDto);
+    }
+
+    @PostMapping("around_toilet")
+    public List<ToiletEntity> aroundToilet(ToiletAround aroundDto) {
+        return toiletService.aroundToilet(aroundDto);
     }
 }
