@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toiletproject.toilet.config.entity.BaseTimeEntity;
+import toiletproject.toilet.review.entity.ReviewEntity;
 import toiletproject.toilet.toilets.entity.ToiletEntity;
 import toiletproject.toilet.user.dto.UserRegisterReqDto;
 
@@ -38,6 +39,9 @@ public class UserEntity extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<ToiletEntity> toilets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author")
+    private List<ReviewEntity> reviews = new ArrayList<>();
 
     public static UserEntity createUserEntity(UserRegisterReqDto dto) {
         return UserEntity.builder()
