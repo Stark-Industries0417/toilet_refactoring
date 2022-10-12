@@ -53,6 +53,10 @@ public class ReviewEntity {
         toilet.getReviews().add(this);
     }
 
+    public void setToiletImg(String toiletImg) {
+        this.toiletImg = toiletImg;
+    }
+
     public void setOption(OptionEntity option) {
         this.option = option;
     }

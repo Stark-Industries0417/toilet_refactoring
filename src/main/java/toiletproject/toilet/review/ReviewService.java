@@ -30,19 +30,17 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public ReviewResDto reviewAdditional(PrincipalDetails auth, ReviewAddDto reviewAddDto) {
+    public ReviewResDto reviewAdditional(PrincipalDetails auth, ReviewAddDto reviewAddDto, String toiletImg) {
         UserEntity user = userRepository.findByEmail(auth.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자 입니다."));
         ToiletEntity toilet = toiletRepository.findByAddress(reviewAddDto.getAddress())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 화장실 주소 입니다."));
 
         ReviewEntity review = ReviewEntity.createReviewEntity(user, toilet, reviewAddDto);
+        review.setToiletImg(toiletImg);
+
         OptionEntity option = OptionEntity.createOption(toilet, review, reviewAddDto);
         optionRepository.save(option);
         return new ReviewResDto(reviewRepository.save(review));
-    }
-
-    public List<ReviewResDto> getReviewsOfUser(PrincipalDetails auth) {
-
     }
 }
