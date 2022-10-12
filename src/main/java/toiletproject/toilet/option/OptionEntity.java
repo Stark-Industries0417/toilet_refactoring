@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import toiletproject.toilet.review.dto.ReviewAddDto;
+import toiletproject.toilet.review.entity.ReviewEntity;
 import toiletproject.toilet.toilets.entity.ToiletEntity;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Table(name = "options")
@@ -37,6 +37,33 @@ public class OptionEntity {
     @Column(nullable = false, columnDefinition="BOOLEAN DEFAULT false")
     private Boolean disabled;
 
-    @OneToOne(mappedBy = "option", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "toilet_id")
     private ToiletEntity toilet;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private ReviewEntity review;
+
+    public void setToilet(ToiletEntity toilet) {
+        this.toilet = toilet;
+        toilet.setOption(this);
+    }
+
+    public void setReview(ReviewEntity review) {
+        this.review = review;
+        review.setOption(this);
+    }
+
+    public static OptionEntity createOption(ToiletEntity toilet, ReviewEntity review, ReviewAddDto reviewDto) {
+        OptionEntity option = new OptionEntity();
+        option.setToilet(toilet);
+        option.setReview(review);
+        option.common = reviewDto.getCommon();
+        option.locked = reviewDto.getLocked();
+        option.types = reviewDto.getTypes();
+        option.paper = reviewDto.getPaper();
+        option.disabled = reviewDto.getDisabled();
+        return option;
+    }
 }
