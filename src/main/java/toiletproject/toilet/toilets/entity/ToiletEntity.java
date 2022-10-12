@@ -5,10 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import toiletproject.toilet.option.OptionEntity;
+import toiletproject.toilet.review.entity.ReviewEntity;
 import toiletproject.toilet.toilets.dto.ToiletDto;
 import toiletproject.toilet.user.entity.UserEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -50,9 +53,11 @@ public class ToiletEntity {
         user.getToilets().add(this);
     }
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "option_id")
+    @OneToOne(mappedBy = "toilet", fetch = FetchType.LAZY)
     private OptionEntity option;
+
+    @OneToMany(mappedBy = "toilet")
+    private List<ReviewEntity> reviews = new ArrayList<>();
 
     public static ToiletEntity createToiletEntity(ToiletDto dto) {
         return ToiletEntity.builder()
@@ -63,5 +68,9 @@ public class ToiletEntity {
                 .lat(dto.getLat())
                 .lng(dto.getLng())
                 .build();
+    }
+
+    public void setOption(OptionEntity option) {
+        this.option = option;
     }
 }
