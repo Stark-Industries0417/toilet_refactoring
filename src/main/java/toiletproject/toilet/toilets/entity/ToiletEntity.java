@@ -48,11 +48,6 @@ public class ToiletEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public void setUser(UserEntity user) {
-        this.user = user;
-        user.getToilets().add(this);
-    }
-
     @OneToOne(mappedBy = "toilet", fetch = FetchType.LAZY)
     private OptionEntity option;
 
@@ -68,6 +63,10 @@ public class ToiletEntity {
                 .lat(dto.getLat())
                 .lng(dto.getLng())
                 .build();
+    }
+    public void setUser(UserEntity user) {
+        this.user = user;
+        user.getToilets().add(this);
     }
 
     public void setOption(OptionEntity option) {

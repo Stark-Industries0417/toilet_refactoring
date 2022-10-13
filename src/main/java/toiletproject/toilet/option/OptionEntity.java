@@ -38,7 +38,7 @@ public class OptionEntity {
     private Boolean disabled;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "toilet_id")
+    @JoinColumn(name = "t_id")
     private ToiletEntity toilet;
 
     @OneToOne(fetch = FetchType.LAZY)
