@@ -3,6 +3,7 @@ package toiletproject.toilet.toilets;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import toiletproject.toilet.toilets.dto.ToiletAroundDto;
 import toiletproject.toilet.toilets.entity.ToiletEntity;
 
 import java.util.List;
@@ -22,15 +23,15 @@ public interface ToiletRepository extends JpaRepository<ToiletEntity, Long> {
         "          * sin( radians( t.lat ) )\n" +
         "          )\n" +
         "          ) AS distance,\n" +
-        "          o.*\n" +
+        "          o.common, o.locked, o.paper, o.disabled\n" +
         "          FROM toilet_db.toilets as t\n" +
         "          LEFT OUTER JOIN toilet_db.options as o\n" +
-        "          ON t.option_id = o.id\n" +
+        "          ON t.toilet_id = o.t_id\n" +
         "          HAVING distance < :dist\n" +
         "          ORDER BY distance\n" +
         "          LIMIT 0, 20;"
     )
-    List<ToiletEntity> aroundToilet(
+    List<ToiletAroundDto> aroundToilet(
             @Param("lat") double lat,
             @Param("lng") double lng,
             @Param("dist") double dist);

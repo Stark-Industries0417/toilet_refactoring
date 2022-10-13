@@ -1,11 +1,11 @@
 package toiletproject.toilet.toilets;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toiletproject.toilet.toilets.dto.ToiletAddress;
 import toiletproject.toilet.toilets.dto.ToiletAround;
+import toiletproject.toilet.toilets.dto.ToiletAroundDto;
 import toiletproject.toilet.toilets.dto.ToiletDto;
 import toiletproject.toilet.toilets.entity.ToiletEntity;
 import toiletproject.toilet.user.UserRepository;
@@ -34,7 +34,7 @@ public class ToiletService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주소 입니다.")));
     }
 
-    public List<ToiletEntity> aroundToilet(ToiletAround aroundDto) {
+    public List<ToiletAroundDto> aroundToilet(ToiletAround aroundDto) {
         return toiletRepository.aroundToilet(aroundDto.getLat(), aroundDto.getLng(), aroundDto.getDist());
     }
 }

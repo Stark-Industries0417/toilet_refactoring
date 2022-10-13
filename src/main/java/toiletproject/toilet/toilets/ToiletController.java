@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import toiletproject.toilet.config.auth.PrincipalDetails;
 import toiletproject.toilet.toilets.dto.ToiletAddress;
 import toiletproject.toilet.toilets.dto.ToiletAround;
+import toiletproject.toilet.toilets.dto.ToiletAroundDto;
 import toiletproject.toilet.toilets.dto.ToiletDto;
-import toiletproject.toilet.toilets.entity.ToiletEntity;
 import toiletproject.toilet.user.entity.UserEntity;
 
 import javax.validation.Valid;
@@ -38,7 +38,7 @@ public class ToiletController {
     }
 
     @PostMapping("around_toilet")
-    public List<ToiletEntity> aroundToilet(ToiletAround aroundDto) {
+    public List<ToiletAroundDto> aroundToilet(@RequestBody @Valid ToiletAround aroundDto) {
         return toiletService.aroundToilet(aroundDto);
     }
 }
