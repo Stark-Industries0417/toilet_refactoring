@@ -48,7 +48,8 @@ public class ToiletEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToOne(mappedBy = "toilet", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "o_id")
     private OptionEntity option;
 
     @OneToMany(mappedBy = "toilet")

@@ -38,7 +38,9 @@ public class ToiletController {
     }
 
     @PostMapping("around_toilet")
-    public List<ToiletAroundDto> aroundToilet(@RequestBody @Valid ToiletAround aroundDto) {
-        return toiletService.aroundToilet(aroundDto);
+    public List<ToiletAroundDto> aroundToilet(@AuthenticationPrincipal PrincipalDetails auth,
+            @RequestBody @Valid ToiletAround aroundDto) {
+        UserEntity user = auth.getUserEntity();
+        return toiletService.aroundToilet(user, aroundDto);
     }
 }

@@ -37,8 +37,7 @@ public class OptionEntity {
     @Column(nullable = false, columnDefinition="BOOLEAN DEFAULT false")
     private Boolean disabled;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "t_id")
+    @OneToOne(mappedBy = "option", fetch = FetchType.LAZY)
     private ToiletEntity toilet;
 
     @OneToOne(fetch = FetchType.LAZY)
