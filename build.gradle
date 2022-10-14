@@ -33,6 +33,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
 	// JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
@@ -41,6 +42,12 @@ dependencies {
 
 	// AWS
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	// REPLICATION
+	implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// REDIS
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {
