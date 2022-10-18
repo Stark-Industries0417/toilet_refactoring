@@ -14,7 +14,7 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
-@Table(name = "reviews")
+@Table(name = "reviews", indexes = @Index(name = "i_review", columnList = "user_id, toilet_id"))
 @Entity
 public class ReviewEntity {
 
