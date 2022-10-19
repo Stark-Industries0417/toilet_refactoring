@@ -1,15 +1,17 @@
 package toiletproject.toilet.user;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import toiletproject.toilet.config.jwt.JwtTokenProvider;
-import toiletproject.toilet.user.dto.UserLoginReqDto;
-import toiletproject.toilet.user.dto.UserLoginResDto;
-import toiletproject.toilet.user.dto.UserRegisterReqDto;
-import toiletproject.toilet.user.dto.UserResponseDto;
+import toiletproject.toilet.user.dto.*;
 import toiletproject.toilet.user.entity.UserEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional
@@ -55,5 +57,11 @@ public class UserService {
                 .imgUrl(user.getImgUrl())
                 .token(jwtTokenProvider.createToken(user.getId(), user.getEmail()))
                 .build();
+    }
+
+    public List<UserReviewsToiletsDto> getReviewsOfUser() {
+        List<UserEntity> findUser = userRepository.findAllReviewOfUser();
+        return findUser.stream().map(UserReviewsToiletsDto::new)
+                .collect(Collectors.toList());
     }
 }

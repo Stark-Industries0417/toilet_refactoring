@@ -7,13 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import toiletproject.toilet.config.auth.PrincipalDetails;
 import toiletproject.toilet.config.aws.ImageUploadService;
-import toiletproject.toilet.user.dto.UserLoginReqDto;
-import toiletproject.toilet.user.dto.UserLoginResDto;
-import toiletproject.toilet.user.dto.UserRegisterReqDto;
-import toiletproject.toilet.user.dto.UserResponseDto;
+import toiletproject.toilet.user.dto.*;
 import toiletproject.toilet.user.entity.UserEntity;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
@@ -46,5 +44,10 @@ public class UserController {
     @GetMapping("/upload")
     public void uploadToS3(@RequestPart MultipartFile image) {
         userImg = imageUploadService.uploadImage(image, "profile");
+    }
+
+    @GetMapping("/review")
+    public List<UserReviewsToiletsDto> getReviewsOfUser() {
+        return userService.getReviewsOfUser();
     }
 }

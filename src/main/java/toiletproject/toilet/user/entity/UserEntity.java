@@ -10,8 +10,8 @@ import toiletproject.toilet.toilets.entity.ToiletEntity;
 import toiletproject.toilet.user.dto.UserRegisterReqDto;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -38,10 +38,10 @@ public class UserEntity extends BaseTimeEntity {
     private String imgUrl;
 
     @OneToMany(mappedBy = "user")
-    private List<ToiletEntity> toilets = new ArrayList<>();
+    private Set<ToiletEntity> toilets = new HashSet<>();
 
     @OneToMany(mappedBy = "author")
-    private List<ReviewEntity> reviews = new ArrayList<>();
+    private Set<ReviewEntity> reviews = new HashSet<>();
 
     public static UserEntity createUserEntity(UserRegisterReqDto dto) {
         return UserEntity.builder()
