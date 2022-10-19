@@ -43,3 +43,4 @@
 - 화장실 사진 추가 API 개발(22/10/12) - `commit` : [f259d](https://github.com/Stark-Industries0417/toilet_refactoring/commit/f259d60837eade4637dcb0277d3f743507236aa5)
 - 화장실 옵션 기능 개발(22/10/12) - `commit1` : [54179](https://github.com/Stark-Industries0417/toilet_refactoring/commit/54179103b76213bb7695dcfe236952aa1c560262)
 - 내 주변 화장실 정보 redis 캐시 서버 사용(22/10/14) - `commit` : [4d3bdd](https://github.com/Stark-Industries0417/toilet_refactoring/commit/4d3bddc5c3b3a2812c65f7b444257030b44a061d)
+- 모든 사용자 별 리뷰와 화장실 옵션 정보 반환 API 개발(22/10/19) - `commit` : [9778d3](https://github.com/Stark-Industries0417/toilet_refactoring/commit/9778d359d0400321b8b9851fa7d08593a6a430d8)
