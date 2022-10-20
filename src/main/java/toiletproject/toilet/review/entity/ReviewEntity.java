@@ -40,7 +40,7 @@ public class ReviewEntity {
     @JoinColumn(name = "toilet_id")
     private ToiletEntity toilet;
 
-    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private OptionEntity option;
 
     public void setUser(UserEntity user) {
@@ -59,6 +59,10 @@ public class ReviewEntity {
 
     public void setOption(OptionEntity option) {
         this.option = option;
+    }
+
+    public void report() {
+        this.stack += 1;
     }
 
     public static ReviewEntity createReviewEntity(UserEntity user, ToiletEntity toilet, ReviewAddDto addDto) {
