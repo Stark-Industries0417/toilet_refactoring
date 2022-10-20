@@ -26,7 +26,7 @@ public interface ToiletRepository extends JpaRepository<ToiletEntity, Long> {
         "          o.common, o.locked, o.paper, o.disabled\n" +
         "          FROM toilet_db.toilets as t\n" +
         "          LEFT OUTER JOIN toilet_db.options as o\n" +
-        "          ON t.o_id = o.option_id\n" +
+        "          ON t.toilet_id = o.t_id\n" +
         "          HAVING distance < :dist\n" +
         "          ORDER BY distance\n" +
         "          LIMIT 0, 20;"
