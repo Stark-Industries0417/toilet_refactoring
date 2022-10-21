@@ -60,7 +60,7 @@ public class ReviewService {
             if (review.getStack() == 3) {
                 reviewRepository.delete(review);
             }
-            return new ReviewResDto(review);
+            return new ReviewResDto(reviewRepository.saveAndFlush(review));
         } finally {
             lettuceLock.unlock(key);
         }
