@@ -1,5 +1,7 @@
 <h1 align="center">Welcome to Which toilet project refactoring server 👋</h1>
 
+공공 화장실에 대한 리뷰와 청결도를 남기고 위치, 화장지 유무, 장애인 화장실, 변기 종류 등의 옵션 정보를 제공하고 화장실에 대한 사진과 사용자 프로필 사진을 업로드 할 수 있는 CRUD 어플리케이션 입니다.
+
 ## 기술스택
 
 <p>
@@ -44,3 +46,4 @@
 - 화장실 옵션 기능 개발(22/10/12) - `commit1` : [54179](https://github.com/Stark-Industries0417/toilet_refactoring/commit/54179103b76213bb7695dcfe236952aa1c560262)
 - 내 주변 화장실 정보 redis 캐시 서버 사용(22/10/14) - `commit` : [4d3bdd](https://github.com/Stark-Industries0417/toilet_refactoring/commit/4d3bddc5c3b3a2812c65f7b444257030b44a061d)
 - 모든 사용자 별 리뷰와 화장실 옵션 정보 반환 API 개발(22/10/19) - `commit` : [9778d3](https://github.com/Stark-Industries0417/toilet_refactoring/commit/9778d359d0400321b8b9851fa7d08593a6a430d8)
+- Redis lettuce 분산 락으로 리뷰 신고 횟수 데이터 정합성 구현(22/10/20) - `commit` : [427aa](https://github.com/Stark-Industries0417/toilet_refactoring/commit/427aaca41cd1627908bbf60809ca296e9c758e69), [9bf94](https://github.com/Stark-Industries0417/toilet_refactoring/commit/9bf94d937ab32c83796bc9ee8cc533b4b1030e76)
